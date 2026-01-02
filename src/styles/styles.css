@@ -1,0 +1,668 @@
+@font-face {
+  font-family: "fira_sansregular";
+  src: url("../fonts/firasans-regular-webfont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Reset / Normalize */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+:root {
+  font-family: "fira_sansregular", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+
+  --light-mint-green: rgba(83, 203, 139, 0.893);
+  --button-red: rgb(169, 41, 27);
+  --button-orange: orange;
+  --button-lighter-gray: #454a4d;
+  --dark-gray: rgb(24, 26, 27);
+  --dark-brown: rgb(40, 28, 17);
+  --light-beige: rgb(212, 208, 202);
+
+  --sidebar-width: 280px;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html {
+  font-size: max(16px, 1rem);
+  line-height: 1.6;
+}
+
+html,
+dialog {
+  background-color: var(--dark-gray);
+  color: var(--light-beige);
+}
+
+dialog {
+  margin: auto;
+}
+
+button,
+label,
+input,
+option,
+select,
+textarea {
+  font: inherit;
+  font-size: 100%;
+  width: 150px;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+input[type="date"] {
+  appearance: auto;
+  -webkit-appearance: none;
+  padding: 0.5rem;
+  min-height: 2.5rem; /* Give iOS enough tap target */
+  background-color: var(--light-beige);
+  box-sizing: border-box;
+}
+
+select {
+  color: black;
+  -webkit-text-fill-color: black; /* iOS override */
+}
+
+option {
+  color: black;
+  background-color: var(--light-beige);
+}
+select {
+  /* Add padding-right to prevent text overlap with arrow */
+  padding-right: 2rem;
+
+  /* Custom arrow using SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23181A1B' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 12px;
+}
+
+input,
+option,
+select,
+textarea {
+  background-color: var(--light-beige);
+}
+
+/* Hides the container of the svgs we reference later */
+#reference-svgs {
+  display: none;
+}
+
+/* general grid layout */
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-areas: "sidebar main-content";
+}
+
+.side-bar {
+  grid-area: sidebar;
+}
+
+.content-view {
+  grid-area: main-content;
+}
+
+/* Content view grid layout */
+.content-view {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+
+  grid-template-areas:
+    "header"
+    "form"
+    "content";
+
+  > header {
+    grid-area: header;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+
+  section.form-section {
+    grid-area: form;
+  }
+
+  section#todo-card-display {
+    grid-area: "content";
+    width: 100%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+}
+
+/* the completed class is assigned to elements to represent
+    a 'crossed' out and non-interactable element.
+*/
+.todo-checklist .completed {
+  opacity: 0.5;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
+/* Dedicated button styling */
+button {
+  border: none;
+  border-radius: 10px;
+
+  padding: 0.2rem;
+  margin: 0.2rem 0;
+
+  filter: brightness(1);
+  transition: 0.2s ease;
+
+  color: inherit;
+  background-color: var(--button-red);
+
+  svg {
+    height: 1.8em;
+    width: 1.8em;
+    text-align: center;
+  }
+}
+
+button:hover,
+button:focus-visible {
+  filter: brightness(1.15);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+button:active {
+  filter: brightness(0.5);
+  transition: 0.2s;
+}
+
+/* Form styling */
+dialog {
+  z-index: 1;
+  max-height: 90vh;
+  width: clamp(300px, 90vw, 550px);
+  overflow-y: auto;
+
+  position: fixed;
+  left: var(--sidebar-width);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fade-in 0.2s ease;
+}
+
+form {
+  padding: 1rem;
+  text-align: justify;
+
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.5rem;
+
+  div:not(:first-of-type) {
+    margin-top: 1rem;
+  }
+
+  button {
+    background-color: var(--button-red);
+    color: var(--light-beige);
+  }
+
+  div {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+}
+
+label {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "label"
+    "input";
+
+  > * {
+    grid-area: input;
+    width: 100%;
+  }
+}
+
+form section {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+form section#checklist-input-container div {
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.5rem;
+
+  button {
+    width: fit-content;
+    padding: 0 0.5rem;
+  }
+}
+
+fieldset {
+  min-width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--light-beige);
+  padding-bottom: 0.5rem;
+}
+
+/* Sidebar styling */
+.dropdown-btn-container,
+.close-btn {
+  /* This button is normally hidden unless a smaller screen is here */
+  display: none;
+}
+
+.side-bar {
+  background-color: var(--dark-brown);
+
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  padding: 0 0.8rem;
+}
+
+nav#general-categories {
+  top: 0;
+  position: sticky;
+}
+
+nav#projects-navigator {
+  top: 14.5rem;
+  position: sticky;
+}
+
+.side-bar nav,
+.dropdown-btn-container {
+  /* This ID is applied to the currently selected filter tab */
+  button.current-tab {
+    background-color: var(--button-red);
+  }
+
+  button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border-radius: 5px;
+
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    margin: 0.1rem 0;
+
+    span.todo-counter {
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    svg,
+    span.todo-counter {
+      height: 1.8em;
+      width: 1.8em;
+      flex-shrink: 0;
+      text-align: center;
+    }
+
+    span.todo-counter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  button:hover {
+    background-color: rgb(93, 75, 75);
+  }
+}
+
+.side-bar {
+  /* Aligns the add project button with the header */
+  div {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  div#projects-list {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  div.project-tab {
+    position: relative;
+  }
+
+  button#add-project-btn,
+  button.delete-project-btn {
+    text-align: center;
+    width: auto;
+  }
+
+  button.delete-project-btn {
+    background-color: var(--button-red);
+    position: absolute;
+    right: 0;
+    visibility: hidden;
+  }
+
+  span.project-name {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  span.todo-counter {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Show delete button on hover, focus, or active state */
+  div.project-tab:hover button.delete-project-btn,
+  div.project-tab:has(button:focus-visible) button.delete-project-btn,
+  div.project-tab:has(button:active) button.delete-project-btn {
+    visibility: visible;
+  }
+}
+
+/* Todo card styling */
+article.todo-card {
+  width: min(800px, 100%);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  .card-content {
+    transition: 0.2s;
+    border: 0.1rem solid var(--light-beige);
+    border-radius: 10px;
+
+    padding: 0.5rem;
+    margin: 0.5rem 1rem;
+
+    background-color: rgb(35, 36, 37);
+  }
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "title title title control"
+      "priority project date control";
+
+    align-items: center;
+
+    column-gap: 1rem;
+
+    /* Component grid placement */
+    .todo-status {
+      grid-area: status;
+    }
+    .todo-title {
+      grid-area: title;
+      text-align: left;
+    }
+
+    .todo-priority {
+      grid-area: priority;
+      text-align: left;
+    }
+    .todo-project {
+      grid-area: project;
+      text-align: center;
+    }
+    time {
+      grid-area: date;
+      text-align: right;
+    }
+
+    .todo-control-buttons {
+      grid-area: control;
+    }
+  }
+
+  .todo-priority {
+    width: fit-content;
+    border: 3px solid;
+    border-radius: 10px;
+    padding: 0 0.2rem;
+
+    &.low-priority {
+      border-color: var(--light-mint-green);
+    }
+    &.medium-priority {
+      border-color: var(--button-orange);
+    }
+    &.high-priority {
+      border-color: var(--button-red);
+    }
+  }
+
+  .todo-control-buttons {
+    display: flex;
+    flex-flow: column nowrap;
+
+    align-items: end;
+
+    button {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  button.todo-status {
+    display: flex;
+    width: fit-content;
+    background: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  use[href="#circle-filled"] {
+    color: var(--light-mint-green);
+  }
+
+  button {
+    background-color: var(--button-lighter-gray);
+  }
+
+  div.extra-details {
+    display: none;
+
+    > div {
+      margin: 0.5rem 0;
+    }
+
+    > div:first-child {
+      border-bottom: 2px solid var(--light-beige);
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  div.extra-details.open {
+    display: block;
+    border-top: 2px solid var(--light-beige);
+    margin: 0.5rem 0;
+  }
+
+  .todo-description {
+    white-space: pre-line;
+  }
+
+  .todo-checklist > div {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.5rem;
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--light-beige);
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  input[type="checkbox"] {
+    position: relative;
+    width: 1em;
+    height: 1em;
+    border: 1px solid gray;
+    /* Adjusts the position of the checkboxes on the text baseline */
+    vertical-align: -2px;
+    /* Set here so that Windows' High-Contrast Mode can override */
+    color: var(--light-mint-green);
+  }
+
+  input[type="checkbox"]::before {
+    content: "✔";
+    position: absolute;
+    font-size: 1.2em;
+    right: -1px;
+    top: -0.3em;
+    visibility: hidden;
+  }
+
+  input[type="checkbox"]:checked::before {
+    /* Use `visibility` instead of `display` to avoid recalculating layout */
+    visibility: visible;
+  }
+
+  input[type="checkbox"]:disabled {
+    border-color: black;
+    background: #dddddd;
+    color: gray;
+  }
+}
+
+.card-content:hover,
+.card-content:focus-visible {
+  filter: brightness(1.25);
+  cursor: pointer;
+  box-shadow: 2px 2px var(--light-mint-green);
+}
+
+/* Sidebar transformations for smaller screens */
+@media screen and (max-width: 768px) {
+  /* Allow the dialog to center automatically */
+  dialog {
+    left: 0;
+  }
+
+  /* Make the dropdown button visible */
+  .dropdown-btn-container {
+    display: block;
+    position: fixed;
+  }
+
+  .close-btn {
+    display: block;
+    width: fit-content;
+    background-color: var(--button-red);
+  }
+
+  body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: "main-content";
+  }
+
+  .content-view {
+    grid-area: main-content;
+    place-self: center;
+  }
+
+  .side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: clamp(280px, 25%, 400px);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1;
+  }
+
+  .side-bar.open {
+    transform: translateX(0);
+  }
+
+  /* Make project delete button visisble for mobile users */
+  .side-bar nav#projects-navigator button.delete-project-btn {
+    visibility: visible;
+  }
+
+  /* Take up the entire screen on smaller devices */
+  @media (max-width: 425px) {
+    .side-bar {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  article.todo-card header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas:
+      "title title"
+      "priority project"
+      "control date";
+
+    row-gap: 0.2rem;
+    align-items: end;
+
+    .todo-control-buttons {
+      display: flex;
+      flex-flow: row nowrap;
+      gap: 0.2rem;
+    }
+
+    .todo-project,
+    time {
+      text-align: right;
+    }
+  }
+}

@@ -3,7 +3,616 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>My Todo</title>
   </head>
-  <body></body>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" id="reference-svgs">
+      <defs>
+        <symbol id="inbox" viewBox="0 0 24 24">
+          <path
+            d="M3 8L3 17C3 18.1046 3.89543 19 5 19L19 19C20.1046 19 21 18.1046 21 17V8"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M3 8L9 8L11 11L13 11L15 8L21 8"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M21 8L21 6C21 5.44772 20.5523 5 20 5L4 5C3.44772 5 3 5.44772 3 6L3 8"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="calendar" viewBox="0 0 24 24">
+          <rect
+            x="4"
+            y="5"
+            width="16"
+            height="16"
+            rx="2"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M4 9H20"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 3V7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M16 3V7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <text
+            x="12"
+            y="16"
+            font-family="Arial, sans-serif"
+            font-size="8"
+            font-weight="600"
+            fill="currentColor"
+            text-anchor="middle"
+          >
+            02
+          </text>
+        </symbol>
+
+        <symbol id="checklist" viewBox="0 0 24 24">
+          <rect
+            x="4"
+            y="5"
+            width="16"
+            height="16"
+            rx="2"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 10H16"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 14H16"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 18H13"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="grid" viewBox="0 0 24 24">
+          <rect
+            x="5"
+            y="5"
+            width="6"
+            height="6"
+            rx="1"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <rect
+            x="13"
+            y="5"
+            width="6"
+            height="6"
+            rx="1"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <rect
+            x="5"
+            y="13"
+            width="6"
+            height="6"
+            rx="1"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <rect
+            x="13"
+            y="13"
+            width="6"
+            height="6"
+            rx="1"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="checkmark" viewBox="0 0 24 24">
+          <circle
+            cx="12"
+            cy="12"
+            r="9"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 12L11 15L16 9"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="plus" viewBox="0 0 24 24">
+          <path
+            d="M12 5V19"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M5 12H19"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="hash" viewBox="0 0 24 24">
+          <path
+            d="M4 9H20"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M4 15H20"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M10 3L8 21"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M16 3L14 21"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="menu" viewBox="0 0 24 24">
+          <path
+            d="M4 7H20"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M4 12H20"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M4 17H20"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+
+        <symbol id="circle" viewBox="0 0 24 24">
+          <circle
+            cx="12"
+            cy="12"
+            r="9"
+            stroke="currentColor"
+            stroke-width="1.5"
+            fill="none"
+          />
+        </symbol>
+
+        <symbol id="circle-filled" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" fill="currentColor" />
+        </symbol>
+
+        <symbol id="checkmark-square" viewBox="0 0 24 24">
+          <rect
+            x="4"
+            y="4"
+            width="16"
+            height="16"
+            rx="2"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+          />
+          <path
+            d="M8 12L11 15L16 9"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </symbol>
+      </defs>
+    </svg>
+
+    <div class="dropdown-btn-container">
+      <button class="burger-btn" type="button">
+        <svg>
+          <use href="#menu"></use>
+        </svg>
+      </button>
+    </div>
+
+    <section class="side-bar">
+      <!-- Contains the todo categories -->
+      <header>
+        <h1>Task Flow</h1>
+
+        <!-- This button is used to close sidebar on mobile screens -->
+        <button type="button" class="close-btn">close menu</button>
+      </header>
+
+      <nav id="general-categories">
+        <!-- Button tabs that display certain todo items -->
+        <!-- There is no specific filtering, only time based display or all of them -->
+        <h2>General</h2>
+
+        <div>
+          <button
+            type="button"
+            class="category-btn"
+            data-filter-type="general"
+            data-filter-display="all"
+          >
+            <svg>
+              <use href="#inbox"></use>
+            </svg>
+            <span class="project-name">All Todos</span>
+            <span class="todo-counter">0</span>
+          </button>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="category-btn"
+            data-filter-type="general"
+            data-filter-display="today"
+          >
+            <svg>
+              <use href="#calendar"></use>
+            </svg>
+            <span class="project-name">Today</span>
+            <span class="todo-counter">0</span>
+          </button>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="category-btn"
+            data-filter-type="general"
+            data-filter-display="week"
+          >
+            <svg>
+              <use href="#checklist"></use>
+            </svg>
+            <span class="project-name">This Week</span>
+            <span class="todo-counter">0</span>
+          </button>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="category-btn"
+            data-filter-type="general"
+            data-filter-display="overdue"
+          >
+            <svg>
+              <use href="#grid"></use>
+            </svg>
+            <span class="project-name">Overdue</span>
+            <span class="todo-counter">0</span>
+          </button>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="category-btn"
+            data-filter-type="general"
+            data-filter-display="completed"
+          >
+            <svg>
+              <use href="#checkmark-square"></use>
+            </svg>
+            <span class="project-name">Completed</span>
+            <span class="todo-counter">0</span>
+          </button>
+        </div>
+      </nav>
+
+      <nav id="projects-navigator">
+        <div>
+          <h2>Projects</h2>
+          <button id="add-project-btn">
+            <svg><use href="#plus"></use></svg>
+          </button>
+        </div>
+
+        <div id="projects-list"></div>
+      </nav>
+
+      <dialog id="project-dialog" closedby="any" autofocus="true">
+        <form id="project-form" method="post">
+          <h4>Create New Project</h4>
+          <label for="project-name"
+            >Project Name
+            <input
+              type="text"
+              placeholder="Enter project name..."
+              name="project-name"
+              id="project-name"
+              maxlength="64"
+              required
+            />
+          </label>
+
+          <section>
+            <button type="submit">Submit</button>
+            <button type="button" data-action="cancel">Cancel</button>
+          </section>
+        </form>
+      </dialog>
+    </section>
+
+    <section class="content-view">
+      <!-- This header will be inline with the header of the side bar -->
+      <header>
+        <h1>My Todos</h1>
+
+        <button type="button" id="add-todo">+ Add Todo</button>
+      </header>
+
+      <section class="form-section">
+        <dialog id="todo-dialog" closedby="any" autofocus="true">
+          <form id="todo-form" method="post">
+            <fieldset>
+              <legend><strong>Task Info</strong></legend>
+              <div>
+                <label for="title"
+                  >Title*:
+                  <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    maxlength="64"
+                    placeholder="Enter title..."
+                    pattern=".*\S+.*"
+                    title="This input requires at least 1 character."
+                    required
+                  />
+                </label>
+              </div>
+
+              <div>
+                <label for="priority"
+                  >Priority*:
+                  <select name="priority" id="priority">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                </label>
+              </div>
+
+              <div>
+                <!-- Other options will be populated via javascript -->
+                <label for="projects-dropdown"
+                  >Project (Optional):
+                  <select name="projects" id="projects-dropdown">
+                    <option value="" selected>None</option>
+                  </select>
+                </label>
+              </div>
+
+              <div>
+                <label for="deadline"
+                  >Deadline (Optional):
+                  <input type="date" name="deadline" id="deadline" />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend><strong>Additional Notes</strong></legend>
+              <div>
+                <label for="description"
+                  >Descritpion (Optional):
+                  <textarea
+                    name="description"
+                    id="description"
+                    rows="4"
+                    placeholder="Enter task description..."
+                  ></textarea>
+                </label>
+              </div>
+
+              <div id="checklist-container">
+                <!-- User can add checkboxes with a brief desc -->
+                <!-- Eachtime they click the button -->
+                <span>Checklist (Optional):</span>
+
+                <!-- Dynamically populate with input fields representing checklist steps -->
+                <section id="checklist-input-container"></section>
+                <button type="button" data-action="add-step">Add Step</button>
+              </div>
+            </fieldset>
+
+            <input type="hidden" name="todo-id" id="todo-id" />
+            <input type="hidden" name="created-at" id="created-at" />
+            <input type="hidden" name="completed" id="completed" />
+
+            <section id="form-control-btns">
+              <button type="submit">Submit</button>
+              <button type="reset" data-action="reset">Reset</button>
+              <button type="button" data-action="cancel">Cancel</button>
+            </section>
+          </form>
+        </dialog>
+      </section>
+
+      <!-- This container is populated with todo cards via javascript -->
+      <!-- The kind of todo cards it is populated with is dependent on which tab -->
+      <!-- is selected -->
+      <section id="todo-card-display"></section>
+    </section>
+
+    <template id="todo-card-template">
+      <article class="todo-card" data-todo-id="">
+        <button type="button" class="todo-status" data-action="change-status">
+          <svg>
+            <use href="#circle"></use>
+          </svg>
+        </button>
+        <div class="card-content">
+          <header>
+            <h3 class="todo-title">Todo Title</h3>
+            <p class="todo-priority"></p>
+            <p class="todo-project"></p>
+            <time datetime=""></time>
+            <div class="todo-control-buttons">
+              <button type="button" class="edit-btn" data-action="edit">
+                edit
+              </button>
+              <button type="button" class="delete-btn" data-action="delete">
+                delete
+              </button>
+            </div>
+          </header>
+          <div class="extra-details">
+            <div>
+              <h4>DESCRIPTION</h4>
+              <p class="todo-description"></p>
+            </div>
+            <div>
+              <fieldset>
+                <legend><h4>To Complete</h4></legend>
+                <div class="todo-checklist"></div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <template id="checklist-template">
+      <div>
+        <label for=""
+          >Item*:
+          <input
+            type="text"
+            id=""
+            name="checklistItem"
+            maxlength="64"
+            placeholder="Enter text..."
+            required
+            pattern=".*\S+.*"
+            title="This input requires at least 1 character."
+          />
+        </label>
+        <button type="button" data-action="delete">X</button>
+      </div>
+    </template>
+
+    <template id="project-tab-template">
+      <div class="project-tab">
+        <button
+          type="button"
+          class="category-btn project-btn"
+          data-action="filter"
+          data-filter-type="project"
+          data-project-id=""
+        >
+          <svg>
+            <use href="#hash"></use>
+          </svg>
+          <span class="project-name"></span>
+          <!-- Displays the number of todos linked to this project -->
+          <span class="todo-counter"></span>
+        </button>
+        <button
+          type="button"
+          class="delete-project-btn"
+          data-action="delete"
+          data-project-id=""
+        >
+          delete
+        </button>
+      </div>
+    </template>
+
+    <template id="card-checklist-item-template">
+      <div data-item-id="">
+        <input type="checkbox" id="" name="" />
+        <label for=""></label>
+      </div>
+    </template>
+  </body>
 </html>
